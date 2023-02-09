@@ -1,0 +1,17 @@
+name: docker-compose-actions-workflow
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build backend
+        run: docker-compose build nestjs-app
+      - name: Build Frontend
+        run: docker-compose build nextjs-app
+      - name: start db
+        run: docker-compose up mysql-db
+      - name: start backend
+        run: docker-compose up nestjs-app --renew-anon-volumes
+      - name: start frontend
+        run: docker-compose up nextjs-app --renew-anon-volumes
